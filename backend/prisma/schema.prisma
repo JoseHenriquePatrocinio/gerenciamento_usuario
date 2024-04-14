@@ -12,7 +12,8 @@ datasource db {
 
 model User {
   id    Int     @id @default(autoincrement())
-  nome  String
+  primeiro_nome  String
+  ultimo_nome  String
   email String  @unique
   senha String
   active Boolean

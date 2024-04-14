@@ -1,6 +1,7 @@
 export default class UserModel {
     id: number
-    nome: string
+    primeiro_nome: string
+    ultimo_nome: string
     email: string
     senha: string
     active: boolean
@@ -9,14 +10,16 @@ export default class UserModel {
 
     constructor(
         id: number,
-        nome: string,
+        primeiro_nome: string,
+        ultimo_nome: string,
         email: string,
         senha: string,
         active: boolean,
         nivel_acesso: number,
         created_at: string) {
         this.id = id
-        this.nome = nome
+        this.primeiro_nome = primeiro_nome
+        this.ultimo_nome = ultimo_nome
         this.email = email
         this.senha = senha
         this.active = active

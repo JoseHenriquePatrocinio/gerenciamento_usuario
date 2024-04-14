@@ -1,4 +1,4 @@
-import { CreateUserRequest } from "../model/UserModel";
+import { CreateUserRequest, UpdateUserRequest } from "../model/UserModel";
 import { PrismaClient } from "@prisma/client";
 import Util from "../util/Util";
 import Result from "../errorhandler/ErrorHandler";
@@ -35,7 +35,7 @@ export default {
 
             //#endregion
 
-            const createdUser = await prisma.user.create({
+            await prisma.user.create({
                 data: {
                     id: user.id,
                     primeiro_nome: user.primeiro_nome,
@@ -45,10 +45,12 @@ export default {
                     active: true,
                     nivel_acesso: user.nivel_acesso,
                     created_at: Util.getCurrentDateTime(),
+                    updated_at: Util.getCurrentDateTime()
                 },
             });
 
             const response: TResponse = {
+                msg: "User created successfully",
                 data: {
                     id: user.id,
                     primeiro_nome: user.primeiro_nome,
@@ -64,5 +66,62 @@ export default {
         }
     },
 
+    updateUser: async (email: string, user: UpdateUserRequest): Promise<Result<TResponse>> => {
+        try {
 
+            //#region Validate
+
+            if (!ValidationBase.isFirstNameValid(user.primeiro_nome)) {
+                return Result.fail<TResponse>('First name is invalid')
+            }
+
+            if (!ValidationBase.isLastNameValid(user.ultimo_nome)) {
+                return Result.fail<TResponse>('Last name is invalid')
+            }
+
+            if (!ValidationBase.isValidEmail(user.email)) {
+                return Result.fail<TResponse>('Email is invalid');
+            }
+
+            if (!user.senha) {
+                return Result.fail<TResponse>('Password is invalid');
+            }
+
+            if (!ValidationBase.isValidRole(user.nivel_acesso)) {
+                return Result.fail<TResponse>('Role is invalid');
+            }
+
+            //#endregion
+
+            await prisma.user.update({
+                where: {
+                    email: email
+                },
+                data: {
+                    primeiro_nome: user.primeiro_nome,
+                    ultimo_nome: user.ultimo_nome,
+                    email: user.email,
+                    senha: await bcrypt.hash(user.senha, 10),
+                    active: user.active,
+                    nivel_acesso: user.nivel_acesso,
+                    updated_at: Util.getCurrentDateTime()
+                },
+            });
+
+            const response: TResponse = {
+                msg: "User updated successfully",
+                data: {
+                    primeiro_nome: user.primeiro_nome,
+                    ultimo_nome: user.ultimo_nome,
+                    email: user.email,
+                    active: user.active,
+                    nivel_acesso: user.nivel_acesso,
+                }
+            };
+
+            return Result.ok<TResponse>(response);
+        } catch (error) {
+            return Result.fail<TResponse>('An error occurred while updating the user');
+        }
+    }
 };

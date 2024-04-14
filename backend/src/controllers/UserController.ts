@@ -22,6 +22,9 @@ export default {
     async getUserByName(req: Request, res: Response) {
         const userByName = await UserService.getUserByName(req.query.primeiro_nome as string);
         res.json(userByName);
+    },
+    async listUsers(req: Request, res: Response) {
+        const users = await UserService.listUsers(req.body);
+        res.json(users);
     }
-
 };

@@ -4,9 +4,10 @@ import UserController from "./controllers/UserController";
 const router = Router();
 
 router.post("/createuser", UserController.createUser);
-router.post("/updateuserbyemail", UserController.updateUserByEmail);
-router.post("/updateuserbyid", UserController.updateUserById);
+router.put("/updateuserbyemail", UserController.updateUserByEmail);
+router.put("/updateuserbyid", UserController.updateUserById);
 router.get("/getuserbyemail", UserController.getUserByEmail);
 router.get("/getuserbyname", UserController.getUserByName);
+router.post("/listUsers", UserController.listUsers);
 
 export default router;

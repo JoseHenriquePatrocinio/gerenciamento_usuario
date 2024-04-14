@@ -1,4 +1,4 @@
-import { UserModel } from "../model/UserModel";
+import { UserModel, ListUsers } from "../model/UserModel";
 import { PrismaClient } from "@prisma/client";
 import Util from "../util/Util";
 import Result from "../errorhandler/ErrorHandler";
@@ -215,7 +215,7 @@ export default {
             return Result.ok<TResponse>(response);
 
         } catch (error) {
-            return Result.fail<TResponse>('An error occurred while updating the user');
+            return Result.fail<TResponse>('An error occurred while searching the user');
         }
 
     },
@@ -246,7 +246,35 @@ export default {
             return Result.ok(response);
 
         } catch (error) {
-            return Result.fail<TResponse>('An error occurred while updating the user');
+            return Result.fail<TResponse>('An error occurred while searching the user');
+        }
+
+    },
+    
+    listUsers: async (pagination: ListUsers): Promise<Result<TResponse>> => {
+
+        try {
+
+            const users = await prisma.user.findMany({
+                skip: (pagination.pagina - 1) * pagination.tamanhoPagina,
+                take: pagination.tamanhoPagina
+              })
+
+            if (users.length === 0) {
+                return Result.fail<TResponse>('User not found');
+            }
+
+            const response: TResponse = {
+                msg: "Users found successfully",
+                data: {
+                    users: users
+                }
+            };
+
+            return Result.ok(response);
+
+        } catch (error) {
+            return Result.fail<TResponse>('An error occurred while searching the user');
         }
 
     }

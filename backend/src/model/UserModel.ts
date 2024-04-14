@@ -31,3 +31,13 @@ export class UserModel {
         this.updated_at = updated_at;
     }
 }
+
+export class ListUsers {
+    pagina: number;
+    tamanhoPagina: number;
+
+    constructor(pagina: number, tamanhoPagina: number) {
+        this.pagina = pagina;
+        this.tamanhoPagina = tamanhoPagina
+    }
+}

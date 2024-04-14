@@ -66,7 +66,7 @@ export default {
         }
     },
 
-    updateUser: async (email: string, user: UserModel): Promise<Result<TResponse>> => {
+    updateUserByEmail: async (email: string, user: UserModel): Promise<Result<TResponse>> => {
         try {
 
             //#region Validate
@@ -96,6 +96,66 @@ export default {
             await prisma.user.update({
                 where: {
                     email: email
+                },
+                data: {
+                    primeiro_nome: user.primeiro_nome,
+                    ultimo_nome: user.ultimo_nome,
+                    email: user.email,
+                    senha: await bcrypt.hash(user.senha, 10),
+                    active: user.active,
+                    nivel_acesso: user.nivel_acesso,
+                    updated_at: Util.getCurrentDateTime()
+                },
+            });
+
+            const response: TResponse = {
+                msg: "User updated successfully",
+                data: {
+                    id: user.id,
+                    primeiro_nome: user.primeiro_nome,
+                    ultimo_nome: user.ultimo_nome,
+                    email: user.email,
+                    active: user.active,
+                    nivel_acesso: user.nivel_acesso,
+                }
+            };
+
+            return Result.ok<TResponse>(response);
+        } catch (error) {
+            return Result.fail<TResponse>('An error occurred while updating the user');
+        }
+    },
+
+    updateUserById: async (id: number, user: UserModel): Promise<Result<TResponse>> => {
+        try {
+
+            //#region Validate
+
+            if (!ValidationBase.isFirstNameValid(user.primeiro_nome)) {
+                return Result.fail<TResponse>('First name is invalid')
+            }
+
+            if (!ValidationBase.isLastNameValid(user.ultimo_nome)) {
+                return Result.fail<TResponse>('Last name is invalid')
+            }
+
+            if (!ValidationBase.isValidEmail(user.email)) {
+                return Result.fail<TResponse>('Email is invalid');
+            }
+
+            if (!user.senha) {
+                return Result.fail<TResponse>('Password is invalid');
+            }
+
+            if (!ValidationBase.isValidRole(user.nivel_acesso)) {
+                return Result.fail<TResponse>('Role is invalid');
+            }
+
+            //#endregion
+
+            await prisma.user.update({
+                where: {
+                    id: id
                 },
                 data: {
                     primeiro_nome: user.primeiro_nome,

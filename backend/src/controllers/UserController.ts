@@ -7,9 +7,13 @@ export default {
         const createdUser = await UserService.createUser(req.body);
         res.json(createdUser);
     },
-    async updateUser(req: Request, res: Response) {
-        const updatedUser = await UserService.updateUser(req.query.email as string, req.body);
-        res.json(updatedUser);
+    async updateUserByEmail(req: Request, res: Response) {
+        const updatedUserByEmail = await UserService.updateUserByEmail(req.query.email as string, req.body);
+        res.json(updatedUserByEmail);
+    },
+    async updateUserById(req: Request, res: Response) {
+        const updatedUserById = await UserService.updateUserById(Number(req.query.id), req.body);
+        res.json(updatedUserById);
     },
     async getUserByEmail(req: Request, res: Response) {
         const userByEmail = await UserService.getUserByEmail(req.query.email as string);

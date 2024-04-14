@@ -1,4 +1,4 @@
-import UserModel from "../model/UserModel";
+import { CreateUserRequest } from "../model/UserModel";
 import { PrismaClient } from "@prisma/client";
 import Util from "../util/Util";
 import Result from "../errorhandler/ErrorHandler";
@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 export default {
-    createUser: async (user: UserModel): Promise<Result<TResponse>> => {
+    createUser: async (user: CreateUserRequest): Promise<Result<TResponse>> => {
         try {
             //#region Validate
 
@@ -62,5 +62,7 @@ export default {
         } catch (error) {
             return Result.fail<TResponse>('An error occurred while creating the user');
         }
-    }
+    },
+
+
 };

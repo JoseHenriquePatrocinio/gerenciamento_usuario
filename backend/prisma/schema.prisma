@@ -19,6 +19,7 @@ model User {
   active Boolean
   nivel_acesso Int
   created_at String
+  updated_at String
 
   @@map("usuarios")
 }

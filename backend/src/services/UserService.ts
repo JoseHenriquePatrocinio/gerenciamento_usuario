@@ -1,4 +1,4 @@
-import { CreateUserRequest, UpdateUserRequest } from "../model/UserModel";
+import { UserModel } from "../model/UserModel";
 import { PrismaClient } from "@prisma/client";
 import Util from "../util/Util";
 import Result from "../errorhandler/ErrorHandler";
@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 export default {
-    createUser: async (user: CreateUserRequest): Promise<Result<TResponse>> => {
+    createUser: async (user: UserModel): Promise<Result<TResponse>> => {
         try {
             //#region Validate
 
@@ -66,7 +66,7 @@ export default {
         }
     },
 
-    updateUser: async (email: string, user: UpdateUserRequest): Promise<Result<TResponse>> => {
+    updateUser: async (email: string, user: UserModel): Promise<Result<TResponse>> => {
         try {
 
             //#region Validate
@@ -123,5 +123,38 @@ export default {
         } catch (error) {
             return Result.fail<TResponse>('An error occurred while updating the user');
         }
+    },
+
+    getUserByEmail: async (email: string): Promise<Result<TResponse>> => {
+
+        try {
+
+            const user = await prisma.user.findUnique({
+                where: {
+                    email: email,
+                },
+            })
+
+            if (!user) {
+                return Result.fail<TResponse>('User not found');
+            }
+
+            const response: TResponse = {
+                msg: "User found successfully",
+                data: {
+                    primeiro_nome: user.primeiro_nome,
+                    ultimo_nome: user.ultimo_nome,
+                    email: user.email,
+                    active: user.active,
+                    nivel_acesso: user.nivel_acesso,
+                }
+            };
+
+            return Result.ok<TResponse>(response);
+
+        } catch (error) {
+            return Result.fail<TResponse>('An error occurred while updating the user');
+        }
+
     }
 };

@@ -10,6 +10,10 @@ export default {
     async updateUser(req: Request, res: Response) {
         const updatedUser = await UserService.updateUser(req.query.email as string, req.body);
         res.json(updatedUser);
+    },
+    async getUserByEmail(req: Request, res: Response) {
+        const userByEmail = await UserService.getUserByEmail(req.query.email as string);
+        res.json(userByEmail);
     }
     
 };

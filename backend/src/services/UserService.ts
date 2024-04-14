@@ -9,6 +9,8 @@ const prisma = new PrismaClient();
 export default {
     createUser: async (user: UserModel): Promise<Result<UserModel>> => {
 
+        //#region Validate
+
         if (!ValidationBase.isFirstNameValid(user.primeiro_nome)) {
             return Result.fail<UserModel>('First name is invalid')
         }
@@ -20,6 +22,8 @@ export default {
         if (!ValidationBase.isValidEmail(user.email)) {
             return Result.fail<UserModel>('Email is invalid');
         }
+
+        //#endregion
 
         const createdUser = await prisma.user.create({
             data: {
@@ -35,5 +39,5 @@ export default {
         });
 
         return Result.ok(createdUser);
-    },
+    }
 };

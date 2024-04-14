@@ -29,6 +29,10 @@ export default {
                 return Result.fail<TResponse>('Password is invalid');
             }
 
+            if (!ValidationBase.isValidRole(user.nivel_acesso)) {
+                return Result.fail<TResponse>('Role is invalid');
+            }
+
             //#endregion
 
             const createdUser = await prisma.user.create({

@@ -1,3 +1,5 @@
+import { UserRole } from "../enum/UserEnum";
+
 export default {
     isValidEmail(email: string): boolean {
         if (email.trim() === '') {
@@ -15,5 +17,9 @@ export default {
 
     isLastNameValid(lastName: string): boolean {
         return (!!lastName && lastName.length > 1 && lastName.length < 50);
-    }   
+    },
+
+    isValidRole(role: UserRole): boolean {
+        return role >= UserRole.ADMIN && role <= UserRole.GUEST;
+    }
 }

@@ -111,6 +111,7 @@ export default {
             const response: TResponse = {
                 msg: "User updated successfully",
                 data: {
+                    id: user.id,
                     primeiro_nome: user.primeiro_nome,
                     ultimo_nome: user.ultimo_nome,
                     email: user.email,
@@ -142,6 +143,7 @@ export default {
             const response: TResponse = {
                 msg: "User found successfully",
                 data: {
+                    id: user.id,
                     primeiro_nome: user.primeiro_nome,
                     ultimo_nome: user.ultimo_nome,
                     email: user.email,
@@ -151,6 +153,37 @@ export default {
             };
 
             return Result.ok<TResponse>(response);
+
+        } catch (error) {
+            return Result.fail<TResponse>('An error occurred while updating the user');
+        }
+
+    },
+
+    getUserByName: async (nome: string): Promise<Result<TResponse>> => {
+
+        try {
+
+            const users = await prisma.user.findMany({
+                where: {
+                    primeiro_nome: {
+                        startsWith: nome,
+                    },
+                },
+            });
+
+            if (users.length === 0) {
+                return Result.fail<TResponse>('User not found');
+            }
+
+            const response: TResponse = {
+                msg: "Users found successfully",
+                data: {
+                    users: users
+                }
+            };
+
+            return Result.ok(response);
 
         } catch (error) {
             return Result.fail<TResponse>('An error occurred while updating the user');

@@ -11,6 +11,13 @@ const prisma = new PrismaClient();
 export default {
     createUser: async (user: UserModel): Promise<Result<TResponse>> => {
         try {
+
+            const existingUser = await prisma.user.findUnique({
+                where: {
+                    email: user.email
+                },
+            })
+            
             //#region Validate
 
             if (!ValidationBase.isFirstNameValid(user.primeiro_nome)) {
@@ -31,6 +38,10 @@ export default {
 
             if (!ValidationBase.isValidRole(user.nivel_acesso)) {
                 return Result.fail<TResponse>('Role is invalid');
+            }
+
+            if (existingUser) {
+                return Result.fail<TResponse>('User already exists');
             }
 
             //#endregion

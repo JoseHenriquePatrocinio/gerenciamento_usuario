@@ -9,5 +9,6 @@ router.put("/updateuserbyid", UserController.updateUserById);
 router.get("/getuserbyemail", UserController.getUserByEmail);
 router.get("/getuserbyname", UserController.getUserByName);
 router.post("/listUsers", UserController.listUsers);
+router.put("/deactivateuser", UserController.deactivateUser);
 
 export default router;

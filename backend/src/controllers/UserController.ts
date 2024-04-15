@@ -26,5 +26,9 @@ export default {
     async listUsers(req: Request, res: Response) {
         const users = await UserService.listUsers(req.body);
         res.json(users);
+    },
+    async deactivateUser(req: Request, res: Response) {
+        const deactivatedUser = await UserService.deactivateUser(Number(req.query.id));
+        res.json(deactivatedUser);
     }
 };

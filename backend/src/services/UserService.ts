@@ -193,6 +193,7 @@ export default {
             const user = await prisma.user.findUnique({
                 where: {
                     email: email,
+                    active: true
                 },
             })
 
@@ -229,6 +230,7 @@ export default {
                     primeiro_nome: {
                         startsWith: nome,
                     },
+                    active: true
                 },
             });
 
@@ -250,15 +252,18 @@ export default {
         }
 
     },
-    
+
     listUsers: async (pagination: ListUsers): Promise<Result<TResponse>> => {
 
         try {
 
             const users = await prisma.user.findMany({
+                where: {
+                    active: true
+                },
                 skip: (pagination.pagina - 1) * pagination.tamanhoPagina,
                 take: pagination.tamanhoPagina
-              })
+            })
 
             if (users.length === 0) {
                 return Result.fail<TResponse>('User not found');
@@ -275,6 +280,50 @@ export default {
 
         } catch (error) {
             return Result.fail<TResponse>('An error occurred while searching the user');
+        }
+
+    },
+
+    deactivateUser: async (id: number): Promise<Result<TResponse>> => {
+
+        try {
+
+            const user = await prisma.user.findUnique({
+                where: {
+                    id: id
+                },
+            })
+
+            if (!user) {
+                return Result.fail<TResponse>('User not found');
+            }
+
+            await prisma.user.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    active: false,
+                    updated_at: Util.getCurrentDateTime()
+                },
+            });
+
+            const response: TResponse = {
+                msg: "User deactivated successfully",
+                data: {
+                    id: user.id,
+                    primeiro_nome: user.primeiro_nome,
+                    ultimo_nome: user.ultimo_nome,
+                    email: user.email,
+                    active: user.active,
+                    nivel_acesso: user.nivel_acesso,
+                }
+            };
+
+            return Result.ok<TResponse>(response);
+
+        } catch (error) {
+            return Result.fail<TResponse>('An error occurred while deactivating the user');
         }
 
     }

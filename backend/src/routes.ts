@@ -1,7 +1,10 @@
 import { Router } from "express";
 import UserController from "./controllers/UserController";
+import AuthController from "./controllers/AuthController";
 
 const router = Router();
+
+router.post("/login", AuthController.login);
 
 router.post("/createuser", UserController.createUser);
 router.put("/updateuserbyemail", UserController.updateUserByEmail);

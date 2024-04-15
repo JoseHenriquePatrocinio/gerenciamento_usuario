@@ -1,0 +1,344 @@
+{
+	"info": {
+		"_postman_id": "b8025e2e-3555-41fe-b048-cc187643e745",
+		"name": "UserManagerCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29666214"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"joseo6@example.com\",\n    \"senha\": \"senha123\"\n\n}"
+				},
+				"url": {
+					"raw": "{{localhost}}/login",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createuser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTcxMzE0NDk3M30.R1MhwuvvwJUN_lbK15LScnvCBKL2weHmls-iP_JuNgk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"primeiro_nome\": \"joseo\",\n    \"ultimo_nome\": \"loo\",\n    \"email\": \"joseo8@example.com\",\n    \"senha\": \"senha123\",\n    \"active\": true,\n    \"nivel_acesso\": 0\n}"
+				},
+				"url": {
+					"raw": "{{localhost}}/createuser",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"createuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTcxMzE0NDk3M30.R1MhwuvvwJUN_lbK15LScnvCBKL2weHmls-iP_JuNgk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pagina\": 1,\r\n    \"tamanhoPagina\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/listUsers",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"listUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateuserbyemail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTcxMzE0NDk3M30.R1MhwuvvwJUN_lbK15LScnvCBKL2weHmls-iP_JuNgk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"primeiro_nome\": \"joelitosss\",\r\n    \"ultimo_nome\": \"Silv\",\r\n    \"email\": \"jo@example.com\",\r\n    \"senha\": \"senha123\",\r\n    \"active\": true,\r\n    \"nivel_acesso\": 0\r\n}"
+				},
+				"url": {
+					"raw": "{{localhost}}/updateuserbyemail?email=jo@example.com",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"updateuserbyemail"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "jo@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateuserbyid",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTcxMzE0NDk3M30.R1MhwuvvwJUN_lbK15LScnvCBKL2weHmls-iP_JuNgk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"primeiro_nome\": \"joelito\",\r\n    \"ultimo_nome\": \"Silva\",\r\n    \"email\": \"jo@example.com\",\r\n    \"senha\": \"senha123\",\r\n    \"active\": false,\r\n    \"nivel_acesso\": 0\r\n}"
+				},
+				"url": {
+					"raw": "{{localhost}}/updateuserbyid?id=20",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"updateuserbyid"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deactivateuser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTcxMzE0NDk3M30.R1MhwuvvwJUN_lbK15LScnvCBKL2weHmls-iP_JuNgk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"primeiro_nome\": \"joelito\",\r\n    \"ultimo_nome\": \"Silva\",\r\n    \"email\": \"jo@example.com\",\r\n    \"senha\": \"senha123\",\r\n    \"active\": false,\r\n    \"nivel_acesso\": 0\r\n}"
+				},
+				"url": {
+					"raw": "{{localhost}}/deactivateuser?id=19",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"deactivateuser"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "19"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getuserbyemail Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTcxMzE0NDk3M30.R1MhwuvvwJUN_lbK15LScnvCBKL2weHmls-iP_JuNgk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{localhost}}/getuserbyemail?email=joseo3@example.com",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"getuserbyemail"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "joseo3@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getuserbyname",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTcxMzE0NDk3M30.R1MhwuvvwJUN_lbK15LScnvCBKL2weHmls-iP_JuNgk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{localhost}}/getuserbyname?primeiro_nome=jose",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"getuserbyname"
+					],
+					"query": [
+						{
+							"key": "primeiro_nome",
+							"value": "jose"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localhost",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

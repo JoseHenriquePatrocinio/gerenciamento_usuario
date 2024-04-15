@@ -236,7 +236,7 @@
 			"response": []
 		},
 		{
-			"name": "getuserbyemail Copy",
+			"name": "getuserbyemail",
 			"request": {
 				"auth": {
 					"type": "bearer",

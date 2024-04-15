@@ -298,6 +298,10 @@ export default {
                 return Result.fail<TResponse>('User not found');
             }
 
+            if (!user.active) {
+                return Result.fail<TResponse>('User is already deactivated');
+            }
+
             await prisma.user.update({
                 where: {
                     id: id

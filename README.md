@@ -15,6 +15,6 @@ npm run dev
 
 ## Push prisma schema
 ```
-npx prisma db push --schema=´path/to/schema´
+npx prisma db push --schema=path/to/schema
 ```
  

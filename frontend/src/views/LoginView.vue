@@ -2,11 +2,11 @@
     <div class="login-container">
         <h2>Login</h2>
         <form @submit.prevent="login" class="login-form">
-            <label for="username">Usuário:</label>
-            <input type="text" v-model="username" required>
+            <label for="email">Email:</label>
+            <input type="text" v-model="email" required>
 
             <label for="password">Senha:</label>
-            <input type="password" v-model="password" required>
+            <input type="password" v-model="senha" required>
 
             <button type="submit">Entrar</button>
         </form>
@@ -18,15 +18,15 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            username: '',
-            password: ''
+            email: '',
+            senha: ''
         };
     },
     methods: {
         login() {
             const formData = {
-                username: this.username,
-                password: this.password,
+                email: this.email,
+                senha: this.senha,
             };
 
             axios.post('http://localhost:8080/login', formData)
@@ -34,7 +34,7 @@ export default {
                     console.log(response.data);
 
                     if (response.status === 200) {
-                        const token = response.data.token;
+                        const token = response.data._value.data.token;
                         localStorage.setItem('token', token);
                         this.redirect();
                     }
@@ -47,8 +47,8 @@ export default {
                 });
         },
         resetForm() {
-            this.username = null;
-            this.password = null;
+            this.email = null;
+            this.senha = null;
         },
         redirect() {
             this.$router.push('/homeview');

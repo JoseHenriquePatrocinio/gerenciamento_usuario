@@ -14,6 +14,7 @@
 </template>
   
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
@@ -22,12 +23,35 @@ export default {
         };
     },
     methods: {
+        login() {
+            const formData = {
+                username: this.username,
+                password: this.password,
+            };
+
+            axios.post('http://localhost:8080/login', formData)
+                .then((response) => {
+                    console.log(response.data);
+
+                    if (response.status === 200) {
+                        const token = response.data.token;
+                        localStorage.setItem('token', token);
+                        this.redirect();
+                    }
+                })
+                .catch((error) => {
+                    alert(error);
+                })
+                .finally(() => {
+                    this.resetForm();
+                });
+        },
         resetForm() {
             this.username = null;
             this.password = null;
         },
         redirect() {
-            this.$router.push('/login');
+            this.$router.push('/homeview');
             window.location.reload();
         },
     }

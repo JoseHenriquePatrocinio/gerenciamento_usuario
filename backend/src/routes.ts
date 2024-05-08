@@ -6,6 +6,7 @@ import authMiddleware from "./middlewares/authMiddleware";
 const router = Router();
 
 router.post("/login", AuthController.login);
+router.post("/verify", AuthController.verifyToken);
 
 router.use(authMiddleware);
 

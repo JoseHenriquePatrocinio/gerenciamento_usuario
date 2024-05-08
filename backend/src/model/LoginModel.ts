@@ -7,3 +7,11 @@ export class LoginModel {
         this.senha = senha
     }
 }
+
+export class AuthValidate {
+    token: string;
+
+    constructor(token: string) {
+        this.token = token;
+    }
+}

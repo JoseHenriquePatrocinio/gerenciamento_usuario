@@ -12,14 +12,17 @@
         </form>
     </div>
 </template>
-  
+
 <script>
 import axios from 'axios';
+
 export default {
     data() {
         return {
             email: '',
-            senha: ''
+            senha: '',
+            token: '',
+            isLoged: false
         };
     },
     methods: {
@@ -28,36 +31,44 @@ export default {
                 email: this.email,
                 senha: this.senha,
             };
-
+      
             axios.post('http://localhost:8080/login', formData)
                 .then((response) => {
-                    console.log(response.data);
-
-                    if (response.status === 200) {
-                        const token = response.data._value.data.token;
-                        localStorage.setItem('token', token);
-                        this.redirect();
+                    console.log(response.data)
+                    if (!response.data.isSuccess) {
+                        alert(response.data.error);
+                        return;
                     }
+
+                    this.token = response.data._value.data.token;
+                    this.isLoged = this.verify(this.token);
                 })
                 .catch((error) => {
-                    alert(error);
+                    alert(error.message);
+                });
+        },
+        verify(token) {
+            axios.post('http://localhost:8080/verify', { token })
+                .then((response) => {
+                    console.log(response.data)
+                    if (!response.data.isSuccess) {
+                        alert(response.data.error);
+                        return false;
+                    }
+                    return true
                 })
-                .finally(() => {
-                    this.resetForm();
+                .catch((error) => {
+                    alert(error.message);
                 });
         },
         resetForm() {
-            this.email = null;
-            this.senha = null;
-        },
-        redirect() {
-            this.$router.push('/homeview');
-            window.location.reload();
-        },
+            this.email = '';
+            this.senha = '';
+        }
     }
 };
 </script>
-  
+
 <style scoped>
 .login-container {
     background-color: #f0f8ff;
@@ -104,4 +115,3 @@ button:hover {
     background-color: #45a049;
 }
 </style>
-  
